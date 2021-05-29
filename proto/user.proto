@@ -1,0 +1,56 @@
+syntax = "proto3";
+package user;
+option go_package = ".;pb";
+import "include/em.proto";
+
+message UserRegister {
+    string username=1;
+    string password=2;
+}
+
+message UserLogin {
+    string username=1;
+    string password=2;
+    string captcha=3;
+}
+
+message UserCreate {
+    string username=1;
+    string password=2;
+    repeated em.Id roles=3;
+}
+
+message UserEdit {
+    uint32 id=1;
+    string username=2;
+    string password=3;
+    repeated em.Id roles=4;
+}
+
+message UserDelete {
+    repeated em.Id users=1;
+}
+
+message UserGetCurrent {
+    string token=1;
+}
+
+message UserUpdateInformation {
+    message Avatar {
+        string path=1;
+    }
+    string password=1;
+    Avatar avatar=2;
+}
+
+service User {
+    rpc Register (UserRegister) returns (em.Response) {}
+    rpc Login (UserLogin) returns (em.Response) {};
+    rpc Logout (em.Empty) returns (em.Response) {}
+    rpc GetCurrent (UserGetCurrent) returns (em.Response) {};
+    rpc GetAll (em.Pagination) returns (em.Response) {};
+    rpc Create (UserCreate) returns (em.Response) {};
+    rpc Edit (UserEdit) returns (em.Response) {};
+    rpc Delete (UserDelete) returns (em.Response) {};
+    rpc UpdateInformation (UserUpdateInformation) returns (em.Response) {};
+}

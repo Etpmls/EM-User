@@ -1,0 +1,33 @@
+syntax = "proto3";
+package permission;
+option go_package = ".;pb";
+import "include/em.proto";
+
+message PermissionCreate {
+    string name=1;
+    uint32 auth=2;
+    string method=3;
+    string path=4;
+    string remark=5;
+}
+
+message PermissionEdit {
+    uint32 id=1;
+    string name=2;
+    uint32 auth=3;
+    string method=4;
+    string path=5;
+    string remark=6;
+}
+
+message PermissionDelete {
+    repeated em.Id permissions=1;
+}
+
+service Permission {
+    rpc GetAll (em.Pagination) returns (em.Response) {};
+    rpc Create (PermissionCreate) returns (em.Response) {};
+    rpc Edit (PermissionEdit) returns (em.Response) {};
+    rpc Delete (PermissionDelete) returns (em.Response) {};
+    rpc GetAdvancedVerify (em.Empty) returns (em.Response) {};
+}
